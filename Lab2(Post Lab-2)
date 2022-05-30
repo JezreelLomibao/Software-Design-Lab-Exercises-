@@ -1,0 +1,68 @@
+import random
+
+choices = []
+
+Hedge = ("Please tell more about it.",
+          "Many of my patients tell the same thing.",
+          "Please continue to talk.")
+
+Quali = ("Why do you say that ",
+              "You seem to think that ",
+              "Can you explain the reason ")
+
+Replace = {"I": "you", "me": "you", "my": "your",
+                "we": "you", "us": "you", "mine": "yours",
+                "you": "I", "your": "my", "yours": "mine"}
+
+
+class Doctor:
+    def __init__(self):
+        pass
+
+    #greeting line
+    def greeting(self):
+        return "Good Day!\nWhat can I do for you?"
+
+    #goodbye message
+    def farewell(self):
+        return "Have a blessed day!"
+
+    #replies
+    def reply(self, sentence):
+
+        replytopatient = random.randint(1, 5)
+        if replytopatient in (1, 2):
+            answer = random.choice(Hedge)
+        elif replytopatient == 3 and len(choices) > 3:
+            answer = "Last time you said that " + \
+                     changesubject(random.choice(choices))
+        else:
+            answer = random.choice(Quali) + changesubject(sentence)
+
+        choices.append(sentence)
+        return answer
+
+
+#change the subject
+def changesubject(sentence):
+    words = sentence.split()
+    replyWords = []
+    for word in words:
+        replyWords.append(Replace.get(word, word))
+    return " ".join(replyWords)
+
+
+# Interaction of the ai doctor
+
+def main():
+    doctor = Doctor()
+    print(doctor.greeting())
+    while True:
+        sentence = input("\n>> ")
+        if sentence.upper() == "QUIT":
+            print(doctor.farewell())
+            break
+        print(doctor.reply(sentence))
+
+if __name__ == "__main__":
+    main()
