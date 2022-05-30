@@ -1,0 +1,25 @@
+user = input("\nPlease make a 6-8 digit Password:")
+def verify_pin(pin):
+    if pin == user:
+        return True
+    else:
+        return False
+
+def login():
+    tries = 0
+    while tries < 3:
+        pin = input('Please Enter Your Password: ')
+        if verify_pin(pin):
+            print("Accepted!")
+            return True
+        else:
+            print("Invalid Password")
+            tries += 1
+    print("You have been used many tries, the police will be coming after a few minutes.")
+    return False
+
+def show():
+    print("\nWelcome to the atm!")
+    if login():
+        print("Login Successful!")
+show()
