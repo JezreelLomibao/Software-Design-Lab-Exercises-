@@ -1,0 +1,30 @@
+import datetime
+
+class Individual:
+
+    def __init__(self, name, surname, birthdate):
+        self.name = name
+        self.surname = surname
+        self.birthdate = birthdate
+
+
+
+    def age(self):
+        today = datetime.date.today()
+        age = today.year - self.birthdate.year
+
+        if today < datetime.date(today.year, self.birthdate.month, self.birthdate.day):
+            age -= 1
+
+        return age
+
+person = Individual(
+    "Lomibao, Jezreel Dave B.",
+    "birthdate",
+    datetime.date(2001, 10, 3), # year, month, day
+
+)
+
+print(person.name)
+print(person.birthdate)
+print(person.age())
