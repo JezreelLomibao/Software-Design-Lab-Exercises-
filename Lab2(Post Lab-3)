@@ -1,0 +1,114 @@
+from random import randint
+
+class Dice:
+
+    def __init__(self):
+        self.value = 1
+
+    def roll(self):
+        self.value = randint(1, 6)
+
+    def getValue(self):
+        return self.value
+
+    def __str__(self):
+        return str(self.getValue())
+        
+#This section is on another py.file you must make a new .py file for the Class Dice:
+        
+from dice import Dice
+
+class Player(object):
+
+    def __init__(self):
+        self.die1 = Dice()
+        self.die2 = Dice()
+        self.roll = ""
+        self.rCount = 0
+        self.Startup = True
+        self.winner = self.loser = False
+
+    def __str__(self):
+        return self.roll
+
+    def getNumberOfRolls(self):
+        return self.rCount
+
+    def rollDice(self):
+        self.rCount += 1
+        self.die1.roll()
+        self.die2.roll()
+        (v1, v2) = (self.die1.getValue(),
+                    self.die2.getValue())
+        self.roll = str((v1, v2)) + " total = " + str(v1 + v2)
+        if self.Startup:
+            self.Sum = v1 + v2
+            self.atStartup = False
+            if self.Sum in (2, 3, 12):
+                self.loser = True
+            elif self.Sum in (7, 11):
+                self.winner = True
+        else:
+            laterSum = v1 + v2
+            if laterSum == 7:
+                self.loser = True
+            elif laterSum == self.Sum:
+                self.winner = True
+        return (v1, v2)
+
+
+    def Winner(self):
+        return self.winner
+
+    def Loser(self):
+        return self.loser
+
+    def Play(self):
+        while not self.Winner() and not self.Loser():
+            self.rollDice()
+        return self.Winner()
+
+
+def playOne():
+    player = Player()
+    while not player.Winner() and not player.Loser():
+        player.rollDice()
+        print(player)
+    if player.Winner():
+        print("You win!")
+    else:
+        print("You lose!")
+
+
+def playMany(number):
+    wins = 0
+    losses = 0
+    winRolls = 0
+    lossRolls = 0
+    for count in range(number):
+        player = Player()
+        hasWon = player.Play()
+        rolls = player.getNumberOfRolls()
+        if hasWon:
+            wins += 1
+            winRolls += rolls
+        else:
+            losses += 1
+            lossRolls += rolls
+    print("The total number of wins is", wins)
+    print("The total number of losses is", losses)
+    print("The average number of rolls per win is %0.2f" % \
+          (winRolls / wins))
+    print("The average number of rolls per loss is %0.2f" % \
+          (lossRolls / losses))
+    print("The winning percentage is %0.2f" % (wins / number))
+
+
+def main():
+    playOne()
+    number = int(input("Enter the number of games in the roll dice: "))
+    playMany(number)
+
+
+if __name__ == "__main__":
+    main()
