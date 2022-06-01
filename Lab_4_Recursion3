@@ -1,0 +1,9 @@
+def Recursion(j):
+    Jstring = len(j)
+
+    if Jstring == 1:
+        return Jstring
+    else:
+        return Recursion(j[1:])
+j='Recursion'
+print('The given number after reverse recursion is equal to ',Recursion(j))
