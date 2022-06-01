@@ -1,0 +1,11 @@
+def Recursion(m,n):
+    if m < n:
+        return Recursion(n,m)
+    elif n != 0:
+        return (m + Recursion(m+1,n-1))
+
+    else:
+        return 0
+m = int(input('Enter a number:'))
+n = int(input('Enter another number:'))
+print(Recursion(m,n))
